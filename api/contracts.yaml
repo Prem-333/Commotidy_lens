@@ -1,0 +1,38 @@
+# Defaults are illustrative. Verify against the official MCX contract specification.
+# Setting verified=true is an operator assertion, not an automated verification.
+GOLDM:
+  name: Gold Mini
+  lot_size_grams: 100
+  quote_unit_grams: 10
+  purity: 0.995
+  location: Ahmedabad
+  verified: false
+  expiry_cycle: Verify current MCX launch calendar
+  source: https://www.mcxindia.com/products/bullion/gold-mini
+GOLDTEN:
+  name: Gold Ten
+  lot_size_grams: 10
+  quote_unit_grams: 10
+  purity: 0.999
+  location: Ahmedabad
+  verified: false
+  expiry_cycle: Verify current MCX launch calendar
+  source: https://www.mcxindia.com/products/bullion/gold-ten
+GOLDGUINEA:
+  name: Gold Guinea
+  lot_size_grams: 8
+  quote_unit_grams: 8
+  purity: 0.999
+  location: Ahmedabad
+  verified: false
+  expiry_cycle: Verify current MCX launch calendar
+  source: https://www.mcxindia.com/products/bullion/gold-guinea
+GOLDPETAL:
+  name: Gold Petal
+  lot_size_grams: 1
+  quote_unit_grams: 1
+  purity: 0.999
+  location: Mumbai
+  verified: false
+  expiry_cycle: Verify current MCX launch calendar
+  source: https://www.mcxindia.com/products/bullion/gold-petal
