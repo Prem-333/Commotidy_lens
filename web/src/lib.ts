@@ -17,10 +17,19 @@ export const dateLabel = (value: string) =>
 export const usePreferences = create(
   persist<{ theme: 'dark' | 'light'; toggle: () => void }>(
     (set) => ({
-      theme: 'dark',
+      theme: 'light',
       toggle: () => set((s) => ({ theme: s.theme === 'dark' ? 'light' : 'dark' })),
     }),
-    { name: 'commoditylens-preferences' },
+    {
+      name: 'commoditylens-preferences',
+      version: 1,
+      // Move the previous default to the new light palette once; future choices persist.
+      migrate: () => ({ theme: 'light' as const, toggle: () => {} }),
+      merge: (persisted, current) => ({
+        ...current,
+        theme: (persisted as { theme?: string })?.theme === 'dark' ? 'dark' : 'light',
+      }),
+    },
   ),
 );
 export async function api<T>(url: string, init?: RequestInit): Promise<T> {

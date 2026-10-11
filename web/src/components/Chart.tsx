@@ -26,23 +26,33 @@ export function Chart({
   const queryClient = useQueryClient();
   const [error, setError] = useState(false);
   useEffect(() => {
-    const element = root.current;
-    if (!element) return;
+    const container = root.current;
+    if (!container) return;
+    // Give each render its own target so delayed cleanup cannot purge a newer chart.
+    const element = document.createElement('div');
+    container.appendChild(element);
     let alive = true;
     let observer: ResizeObserver | undefined;
     import('plotly.js-cartesian-dist-min')
       .then(async ({ default: Plotly }) => {
         if (!alive) return;
-        const muted = theme === 'dark' ? '#8d99ad' : '#576479';
+        const muted = theme === 'dark' ? '#8d99ad' : '#526176';
         const lightColors: Record<string, string> = {
-          '#e6c66d': '#896714',
-          '#c9a24b': '#896714',
-          '#ed8997': '#b23f58',
-          '#ed9a9e': '#b23f58',
-          '#83b9ed': '#326d9e',
-          '#80b6ec': '#326d9e',
+          '#e6c66d': '#806014',
+          '#c9a24b': '#806014',
+          '#ed8997': '#ac324b',
+          '#ed9a9e': '#ac324b',
+          '#83b9ed': '#285d97',
+          '#80b6ec': '#285d97',
           '#bba4e8': '#7650a8',
-          '#6dd4bd': '#237d62',
+          '#6dd4bd': '#176d50',
+          '#217663': '#b9ded2',
+          '#18202d': '#f1f3f5',
+          '#a75160': '#edbdc7',
+          '#ffffff': '#172b4d',
+          '#bfa76833': '#80601440',
+          '#bfa76845': '#80601466',
+          '#d2b76b0a': '#80601410',
         };
         const themedData =
           theme === 'light'
@@ -72,7 +82,7 @@ export function Chart({
             hovermode: 'x unified',
             hoverlabel: {
               bgcolor: theme === 'dark' ? '#17202c' : '#fff',
-              font: { color: theme === 'dark' ? '#eef2f7' : '#17202c' },
+              font: { color: theme === 'dark' ? '#eef2f7' : '#172b4d' },
             },
             ...layout,
           },
@@ -93,6 +103,7 @@ export function Chart({
     return () => {
       alive = false;
       observer?.disconnect();
+      element.remove();
       import('plotly.js-cartesian-dist-min').then((p) => p.default.purge(element));
     };
   }, [data, layout, height, theme]);
@@ -103,7 +114,10 @@ export function Chart({
     try {
       if (!root.current) return;
       const { default: Plotly } = await import('plotly.js-cartesian-dist-min');
-      const chart = root.current as HTMLDivElement & Pick<PlotlyHTMLElement, 'data' | 'layout'>;
+      const chart = root.current.querySelector('.js-plotly-plot') as
+        | (HTMLDivElement & Pick<PlotlyHTMLElement, 'data' | 'layout'>)
+        | null;
+      if (!chart) throw new Error('Chart is not ready');
       const source = queryClient.getQueryData<Health>(['health'])?.source ?? 'unverified source';
       document.body.appendChild(exportElement);
       await Plotly.newPlot(

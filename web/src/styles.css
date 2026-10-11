@@ -5,9 +5,26 @@
 }
 :root {
   font-family: 'Inter', sans-serif;
-  color: #edf0f5;
-  background: #07090d;
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
+  --bg: #f8f7f3;
+  --surface: #ffffff;
+  --surface2: #f1f3f5;
+  --surface3: #e7ecf1;
+  --border: #dce2e8;
+  --text: #172b4d;
+  --muted: #526176;
+  --muted2: #627087;
+  --gold: #806014;
+  --green: #176d50;
+  --rose: #ac324b;
+  --blue: #285d97;
+  --gold-fill: #f5eedc;
+  --shadow: 0 12px 36px #172b4d08;
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
   --bg: #07090d;
   --surface: #0d1117;
   --surface2: #121821;
@@ -23,25 +40,6 @@
   --gold-fill: rgba(224, 190, 97, 0.08);
   --shadow: 0 12px 36px #00000018;
   color-scheme: dark;
-}
-:root[data-theme='light'] {
-  --bg: #f5f6f8;
-  --surface: #fff;
-  --surface2: #f0f2f5;
-  --surface3: #e9edf2;
-  --border: rgba(25, 35, 50, 0.12);
-  --text: #172131;
-  --muted: #526176;
-  --muted2: #627087;
-  --gold: #806014;
-  --green: #176d50;
-  --rose: #ac324b;
-  --blue: #285d97;
-  --gold-fill: #aa811410;
-  --shadow: 0 12px 36px #18202d08;
-  color: #172131;
-  background: #f5f6f8;
-  color-scheme: light;
 }
 * {
   box-sizing: border-box;
@@ -116,10 +114,10 @@ select {
   cursor: pointer;
 }
 input[type='checkbox'] {
-  accent-color: #c9a24b;
+  accent-color: var(--gold);
 }
 input[type='range'] {
-  accent-color: #c9a24b;
+  accent-color: var(--gold);
 }
 small {
   font-size: 11px;
@@ -1490,8 +1488,8 @@ tbody tr:hover {
 }
 .fatal button {
   padding: 12px;
-  background: var(--gold);
-  color: #17130a;
+  background: var(--text);
+  color: var(--surface);
   border: 0;
   border-radius: 6px;
 }
@@ -1499,8 +1497,8 @@ tbody tr:hover {
   position: fixed;
   left: 20px;
   top: -60px;
-  background: var(--gold);
-  color: #17130a;
+  background: var(--text);
+  color: var(--surface);
   padding: 12px;
   z-index: 200;
 }
@@ -2987,9 +2985,18 @@ tbody tr:hover {
   background: var(--gold-fill);
   border-color: #c9a24b30;
 }
-:root[data-theme='light'] .hero h1 > span,
-:root[data-theme='light'] .landing-cta h2 > span {
+:root:not([data-theme='dark']) .hero h1 > span,
+:root:not([data-theme='dark']) .landing-cta h2 > span {
   background-image: linear-gradient(90deg, #8a681b, #785411, #655020);
+}
+:root:not([data-theme='dark']) .button-gold {
+  background: #172b4d;
+  color: #ffffff;
+  border-color: #172b4d;
+  box-shadow: 0 4px 12px #172b4d14;
+}
+:root:not([data-theme='dark']) .button-gold:hover {
+  background: #24416b;
 }
 @media (max-width: 760px) {
   .feature-card:nth-child(4) {

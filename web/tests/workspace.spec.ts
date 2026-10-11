@@ -51,7 +51,16 @@ test('walk-forward execution, changed-parameter notice and CSV export', async ({
 });
 
 test('palette, URL filters, theme and chart export', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('commoditylens-preferences')) {
+      localStorage.setItem(
+        'commoditylens-preferences',
+        JSON.stringify({ state: { theme: 'dark' }, version: 0 }),
+      );
+    }
+  });
   await page.goto('/app/overview');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(page.locator('.contract-card')).toHaveCount(4);
   await page.getByRole('button', { name: 'Open command palette' }).click();
   await page.getByRole('textbox', { name: 'Search pages' }).fill('relative');
@@ -60,16 +69,20 @@ test('palette, URL filters, theme and chart export', async ({ page }) => {
     .getByRole('button', { name: /Relative Value/ })
     .click();
   await expect(page).toHaveURL(/relative-value/);
+  await expect(page.getByRole('heading', { name: 'Find the difference that matters.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Pairwise deviation' })).toBeVisible();
   await page.getByLabel('Contract pair').selectOption('GOLDM/GOLDGUINEA');
   await expect(page).toHaveURL(/pair=GOLDM%2FGOLDGUINEA/);
   await expect(page.locator('.js-plotly-plot')).toHaveCount(2);
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export Normalized spread PNG' }).click();
   expect((await download).suggestedFilename()).toContain('.png');
-  await page.getByRole('button', { name: 'Switch to light theme' }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.screenshot({ path: '../artifacts/dashboard-light.png', fullPage: true });
+  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.getByRole('button', { name: 'Switch to light theme' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 

@@ -427,6 +427,9 @@ export function App() {
   const { theme } = usePreferences();
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'light' ? '#F8F7F3' : '#07090D');
   }, [theme]);
   return (
     <MotionConfig reducedMotion="user">
