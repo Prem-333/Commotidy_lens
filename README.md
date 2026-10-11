@@ -2,6 +2,8 @@
 
 **See the gold market clearly.** An auditable MCX gold relative-value research platform with a React dashboard, FastAPI analytics service and PostgreSQL deployment configuration.
 
+> 🎬 **Demo Video** — [Watch CommodityLens in action on YouTube](https://youtu.be/gx9Q3ASKUDU)
+
 The default dataset contains **13,144 deterministic synthetic observations**, generated locally for 3 March 2025–9 October 2026. They are labeled **Sample data** throughout the interface. No market returns, customers, testimonials or funding claims are invented.
 
 ## Quick start — local development
